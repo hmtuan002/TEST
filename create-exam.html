@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo đề thi Văn học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h1 class="text-3xl font-bold text-blue-800 mb-6">Tạo đề thi Văn học</h1>
+            
+            <!-- Bước 1: Cài đặt cơ bản -->
+            <div id="step-1" class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">1. Cài đặt cơ bản</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Tên đề thi</label>
+                        <input type="text" id="exam-name" class="w-full p-3 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Thời gian làm bài (phút)</label>
+                        <input type="number" id="exam-duration" class="w-full p-3 border rounded-lg" min="1" value="120">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2">Mô tả đề thi</label>
+                    <textarea id="exam-description" class="w-full p-3 border rounded-lg" rows="3"></textarea>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button id="next-to-step-2" class="btn-primary">Tiếp theo <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+            
+            <!-- Bước 2: Tạo nội dung đề thi -->
+            <div id="step-2" class="hidden mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">2. Tạo nội dung đề thi</h2>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2">Phương thức tạo đề</label>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <button id="manual-method" class="method-btn active">
+                            <i class="fas fa-pen-alt text-2xl mb-2"></i>
+                            <span>Thủ công</span>
+                        </button>
+                        <button id="ai-method" class="method-btn">
+                            <i class="fas fa-robot text-2xl mb-2"></i>
+                            <span>AI tạo đề</span>
+                        </button>
+                        <button id="word-method" class="method-btn">
+                            <i class="fas fa-file-word text-2xl mb-2"></i>
+                            <span>Từ file Word</span>
+                        </button>
+                        <button id="image-method" class="method-btn">
+                            <i class="fas fa-camera text-2xl mb-2"></i>
+                            <span>Từ hình ảnh</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Phương thức thủ công -->
+                <div id="manual-content" class="exam-content-method">
+                    <div class="mb-4 flex justify-between items-center">
+                        <h3 class="font-semibold text-gray-700">Thêm câu hỏi</h3>
+                        <div class="flex space-x-2">
+                            <button id="add-multiple-choice" class="btn-secondary-sm">
+                                <i class="fas fa-list-ol mr-1"></i> Trắc nghiệm
+                            </button>
+                            <button id="add-true-false" class="btn-secondary-sm">
+                                <i class="fas fa-check-circle mr-1"></i> Đúng/Sai
+                            </button>
+                            <button id="add-short-answer" class="btn-secondary-sm">
+                                <i class="fas fa-align-left mr-1"></i> Tự luận ngắn
+                            </button>
+                            <button id="add-essay" class="btn-secondary-sm">
+                                <i class="fas fa-pen-fancy mr-1"></i> Tự luận dài
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="questions-container" class="space-y-4">
+                        <!-- Câu hỏi sẽ được thêm vào đây -->
+                    </div>
+                </div>
+                
+                <!-- Phương thức AI -->
+                <div id="ai-content" class="exam-content-method hidden">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Mô tả đề thi bạn muốn tạo</label>
+                        <textarea id="ai-prompt" class="w-full p-3 border rounded-lg" rows="4" placeholder="Ví dụ: Tạo đề thi Văn học THPT Quốc gia gồm 3 câu đọc hiểu về bài thơ 'Việt Bắc', 1 câu nghị luận xã hội về tình yêu quê hương, 1 câu nghị luận văn học về tác phẩm 'Vợ nhặt'"></textarea>
+                    </div>
+                    <button id="generate-with-ai" class="btn-primary">
+                        <i class="fas fa-magic mr-2"></i> Tạo đề với AI
+                    </button>
+                </div>
+                
+                <!-- Phương thức từ file Word -->
+                <div id="word-content" class="exam-content-method hidden">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Tải lên file Word (.docx)</label>
+                        <input type="file" id="word-file" accept=".docx" class="w-full p-3 border rounded-lg">
+                    </div>
+                    <button id="process-word-file" class="btn-primary">
+                        <i class="fas fa-file-upload mr-2"></i> Xử lý file Word
+                    </button>
+                </div>
+                
+                <!-- Phương thức từ hình ảnh -->
+                <div id="image-content" class="exam-content-method hidden">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Tải lên ảnh hoặc chụp ảnh</label>
+                        <div class="flex space-x-4">
+                            <div class="flex-1">
+                                <input type="file" id="image-file" accept="image/*" class="w-full p-3 border rounded-lg">
+                            </div>
+                            <button id="open-camera" class="btn-secondary">
+                                <i class="fas fa-camera mr-2"></i> Mở camera
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="camera-preview" class="hidden mb-4">
+                        <video id="camera-view" autoplay playsinline class="w-full rounded-lg border"></video>
+                        <button id="capture-image" class="btn-primary mt-2">
+                            <i class="fas fa-camera mr-2"></i> Chụp ảnh
+                        </button>
+                    </div>
+                    
+                    <div id="captured-image-container" class="hidden mb-4">
+                        <img id="captured-image" src="#" alt="Ảnh đã chụp" class="w-full rounded-lg border">
+                        <button id="retry-capture" class="btn-secondary mt-2">
+                            <i class="fas fa-redo mr-2"></i> Chụp lại
+                        </button>
+                    </div>
+                    
+                    <button id="process-image" class="btn-primary">
+                        <i class="fas fa-image mr-2"></i> Xử lý ảnh
+                    </button>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button id="back-to-step-1" class="btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                    </button>
+                    <button id="next-to-step-3" class="btn-primary">
+                        Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Bước 3: Cài đặt bổ sung -->
+            <div id="step-3" class="hidden">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">3. Cài đặt bổ sung</h2>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2">Chống gian lận</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="prevent-copy" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span>Chống sao chép nội dung (Ctrl+C)</span>
+                        </label>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="prevent-tab-switch" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span>Tự động nộp bài khi chuyển tab hoặc ứng dụng</span>
+                        </label>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="notify-cheating" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span>Gửi thông báo khi phát hiện gian lận</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button id="back-to-step-2" class="btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                    </button>
+                    <button id="create-exam" class="btn-primary">
+                        <i class="fas fa-check-circle mr-2"></i> Tạo đề thi
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview đề thi -->
+        <div id="exam-preview" class="bg-white rounded-xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4">Xem trước đề thi</h2>
+            <div id="preview-content" class="mb-6"></div>
+            
+            <div class="flex justify-between">
+                <button id="edit-exam" class="btn-secondary">
+                    <i class="fas fa-edit mr-2"></i> Chỉnh sửa
+                </button>
+                <button id="save-exam" class="btn-primary">
+                    <i class="fas fa-save mr-2"></i> Lưu đề thi
+                </button>
+            </div>
+        </div>
+        
+        <!-- Kết quả tạo đề -->
+        <div id="exam-result" class="bg-white rounded-xl shadow-lg p-6 hidden text-center">
+            <div class="bg-green-100 p-6 rounded-lg inline-block mb-6">
+                <i class="fas fa-check-circle text-5xl text-green-600"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Tạo đề thi thành công!</h2>
+            <p class="text-gray-600 mb-6">Đề thi của bạn đã được lưu và sẵn sàng để chia sẻ.</p>
+            
+            <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+                    <div class="text-center">
+                        <div class="font-semibold mb-2">Mã QR</div>
+                        <div id="qr-code" class="w-32 h-32 mx-auto bg-white p-2 rounded-lg border"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-semibold mb-2">Link chia sẻ</div>
+                        <div class="flex items-center">
+                            <input type="text" id="exam-link" class="flex-1 p-2 border rounded-l-lg" readonly>
+                            <button id="copy-link" class="bg-blue-600 text-white p-2 rounded-r-lg">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-4">
+                <button id="view-exam" class="btn-primary">
+                    <i class="fas fa-eye mr-2"></i> Xem đề thi
+                </button>
+                <button id="new-exam" class="btn-secondary">
+                    <i class="fas fa-plus mr-2"></i> Tạo đề mới
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- QR Code Generator -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    
+    <!-- File processing libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+    
+    <script src="js/firebase.js"></script>
+    <script src="js/create-exam.js"></script>
+</body>
+</html>

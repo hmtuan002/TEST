@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài thi Văn học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h1 class="text-3xl font-bold text-blue-800 mb-6">Quản lý bài thi Văn học</h1>
+            
+            <div class="flex border-b mb-6">
+                <button id="tab-my-exams" class="tab-btn active">
+                    <i class="fas fa-file-alt mr-2"></i> Đề thi của bạn
+                </button>
+                <button id="tab-my-results" class="tab-btn">
+                    <i class="fas fa-clipboard-check mr-2"></i> Bài thi của bạn
+                </button>
+            </div>
+            
+            <!-- Tab Đề thi của bạn -->
+            <div id="my-exams-content" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Danh sách đề thi bạn đã tạo</h2>
+                    <button id="create-new-exam" class="btn-primary">
+                        <i class="fas fa-plus mr-2"></i> Tạo đề mới
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên đề thi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày tạo</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số người thi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exams-list" class="divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="4" class="px-6 py-4 text-center">Đang tải dữ liệu...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Chi tiết đề thi -->
+                <div id="exam-detail" class="hidden mt-8 bg-gray-50 p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 id="detail-exam-name" class="text-xl font-semibold text-gray-800"></h2>
+                        <button id="close-exam-detail" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-gray-500 mb-1">Thời gian làm bài</div>
+                            <div id="detail-exam-duration" class="font-bold text-lg"></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-gray-500 mb-1">Số câu hỏi</div>
+                            <div id="detail-exam-questions" class="font-bold text-lg"></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-gray-500 mb-1">Số người thi</div>
+                            <div id="detail-exam-participants" class="font-bold text-lg"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">Mô tả đề thi</h3>
+                        <p id="detail-exam-description" class="text-gray-600"></p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-semibold text-gray-800">Danh sách bài thi</h3>
+                            <div class="flex space-x-2">
+                                <button id="grade-with-ai" class="btn-secondary-sm">
+                                    <i class="fas fa-robot mr-1"></i> AI chấm điểm
+                                </button>
+                                <button id="ai-assist-grade" class="btn-secondary-sm">
+                                    <i class="fas fa-magic mr-1"></i> AI hỗ trợ chấm
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên thí sinh</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày thi</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Điểm số</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exam-results-list" class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center">Đang tải dữ liệu...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button id="share-exam" class="btn-secondary">
+                            <i class="fas fa-share-alt mr-2"></i> Chia sẻ
+                        </button>
+                        <button id="delete-exam" class="btn-danger">
+                            <i class="fas fa-trash mr-2"></i> Xóa đề thi
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Bài thi của bạn -->
+            <div id="my-results-content" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Danh sách bài thi bạn đã làm</h2>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên đề thi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày thi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Điểm số</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-list" class="divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center">Đang tải dữ liệu...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Chi tiết bài thi -->
+                <div id="result-detail" class="hidden mt-8 bg-gray-50 p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 id="detail-result-name" class="text-xl font-semibold text-gray-800"></h2>
+                        <button id="close-result-detail" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-gray-500 mb-1">Ngày thi</div>
+                            <div id="detail-result-date" class="font-bold text-lg"></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-gray-500 mb-1">Điểm số</div>
+                            <div id="detail-result-score" class="font-bold text-lg"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">Nhận xét</h3>
+                        <p id="detail-result-feedback" class="text-gray-600"></p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">Bài làm của bạn</h3>
+                        <div id="detail-result-answers" class="space-y-4"></div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button id="download-result" class="btn-primary">
+                            <i class="fas fa-download mr-2"></i> Tải về bài làm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chấm điểm -->
+    <div id="grade-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Chấm điểm bài thi</h2>
+                <button id="close-grade-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="grade-content" class="space-y-6">
+                <!-- Nội dung bài thi và chấm điểm sẽ hiển thị ở đây -->
+            </div>
+            
+            <div class="mt-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-gray-800">Tổng điểm</h3>
+                    <div class="flex items-center">
+                        <input type="number" id="total-grade" class="w-20 p-2 border rounded-lg text-right" min="0" max="10" step="0.1">
+                        <span class="ml-2">/ 10 điểm</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Nhận xét</label>
+                    <textarea id="grade-feedback" class="w-full p-3 border rounded-lg" rows="3"></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-grade" class="btn-secondary">Hủy bỏ</button>
+                    <button id="save-grade" class="btn-primary">Lưu điểm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <script src="js/firebase.js"></script>
+    <script src="js/manage-exam.js"></script>
+</body>
+</html>

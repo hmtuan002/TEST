@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống luyện thi Văn học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-blue-800 mb-4">HỆ THỐNG LUYỆN THI VĂN HỌC</h1>
+            <p class="text-lg text-gray-600">Nền tảng luyện thi và tạo đề thi Văn học chuyên nghiệp</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Tạo đề thi -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105">
+                <div class="bg-blue-600 p-6 text-white">
+                    <i class="fas fa-plus-circle text-4xl mb-4"></i>
+                    <h2 class="text-2xl font-bold">Tạo đề thi</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">Tạo đề thi Văn học với nhiều tùy chọn: thủ công, AI, từ file Word hoặc ảnh chụp.</p>
+                    <a href="create-exam.html" class="btn-primary w-full">Bắt đầu tạo đề</a>
+                </div>
+            </div>
+            
+            <!-- Tham gia thi -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105">
+                <div class="bg-green-600 p-6 text-white">
+                    <i class="fas fa-pen-fancy text-4xl mb-4"></i>
+                    <h2 class="text-2xl font-bold">Tham gia thi</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">Tham gia thi với đề thi từ người khác hoặc đề thi do AI tạo ra.</p>
+                    <a href="take-exam.html" class="btn-primary w-full">Tham gia ngay</a>
+                </div>
+            </div>
+            
+            <!-- Quản lý bài thi -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105">
+                <div class="bg-purple-600 p-6 text-white">
+                    <i class="fas fa-tasks text-4xl mb-4"></i>
+                    <h2 class="text-2xl font-bold">Quản lý bài thi</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">Quản lý đề thi bạn đã tạo và xem kết quả các bài thi của bạn.</p>
+                    <a href="manage-exam.html" class="btn-primary w-full">Quản lý ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase.js"></script>
+</body>
+</html>
