@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài thi - Luyện thi Văn học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-indigo-700">Quản lý bài thi</h1>
+            <div id="user-info" class="hidden">
+                <span id="user-name" class="mr-4"></span>
+                <button id="logout-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                </button>
+            </div>
+            <button id="login-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
+                <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
+            </button>
+        </header>
+
+        <!-- Main content -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <!-- Tabs -->
+            <div class="border-b border-gray-200 mb-6">
+                <ul class="flex flex-wrap -mb-px" id="tabs">
+                    <li class="mr-2">
+                        <button id="your-exams-tab" class="inline-block py-4 px-4 text-sm font-medium text-center border-b-2 border-transparent rounded-t-lg hover:text-indigo-600 hover:border-indigo-300 active" data-tab="your-exams">
+                            <i class="fas fa-book mr-2"></i>Đề thi của bạn
+                        </button>
+                    </li>
+                    <li class="mr-2">
+                        <button id="your-results-tab" class="inline-block py-4 px-4 text-sm font-medium text-center border-b-2 border-transparent rounded-t-lg hover:text-indigo-600 hover:border-indigo-300" data-tab="your-results">
+                            <i class="fas fa-clipboard-check mr-2"></i>Bài thi của bạn
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab content -->
+            <div id="tab-content">
+                <!-- Your Exams Tab -->
+                <div id="your-exams-content" class="tab-pane active">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold mb-4">Danh sách đề thi</h2>
+                        <div id="exams-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Exams will be loaded here -->
+                            <div class="text-center py-8">
+                                <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full"></div>
+                                <p class="mt-2 text-gray-600">Đang tải đề thi...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Your Results Tab -->
+                <div id="your-results-content" class="tab-pane hidden">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold mb-4">Danh sách bài thi đã tham gia</h2>
+                        <div id="results-list" class="space-y-4">
+                            <!-- Results will be loaded here -->
+                            <div class="text-center py-8">
+                                <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full"></div>
+                                <p class="mt-2 text-gray-600">Đang tải kết quả...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Details Modal -->
+        <div id="exam-details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="exam-details-title" class="text-xl font-bold"></h3>
+                        <button id="close-exam-details" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p id="exam-details-description" class="text-gray-600"></p>
+                        <div class="flex items-center mt-2">
+                            <span class="text-sm text-gray-500 mr-4"><i class="fas fa-clock mr-1"></i> <span id="exam-details-duration"></span> phút</span>
+                            <span class="text-sm text-gray-500"><i class="fas fa-calendar-alt mr-1"></i> <span id="exam-details-date"></span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-b border-gray-200 py-4 mb-4">
+                        <h4 class="font-semibold mb-2">Danh sách bài thi đã nộp</h4>
+                        <div id="submissions-list" class="space-y-2">
+                            <!-- Submissions will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div id="grading-section" class="hidden">
+                        <h4 class="font-semibold mb-2">Chấm bài thi</h4>
+                        <div id="submission-content" class="bg-gray-50 p-4 rounded mb-4">
+                            <!-- Submission content will be loaded here -->
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <label class="mr-2">Điểm:</label>
+                            <input type="number" id="grade-input" min="0" max="10" step="0.1" class="border rounded px-2 py-1 w-20 mr-4">
+                            <div class="space-x-2">
+                                <button id="grade-with-ai" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                                    <i class="fas fa-robot mr-1"></i>AI chấm
+                                </button>
+                                <button id="grade-with-ai-assist" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded">
+                                    <i class="fas fa-magic mr-1"></i>AI hỗ trợ
+                                </button>
+                                <button id="submit-grade" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                    <i class="fas fa-check mr-1"></i>Xác nhận
+                                </button>
+                            </div>
+                        </div>
+                        <div id="ai-feedback" class="bg-blue-50 border border-blue-200 rounded p-3 hidden">
+                            <h5 class="font-medium text-blue-800 mb-1">Nhận xét từ AI:</h5>
+                            <p id="ai-feedback-text" class="text-blue-700"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Details Modal -->
+        <div id="result-details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="result-details-title" class="text-xl font-bold"></h3>
+                        <button id="close-result-details" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center space-x-4 mb-2">
+                            <span class="text-gray-600"><i class="fas fa-user mr-1"></i> <span id="result-student-name"></span></span>
+                            <span class="text-gray-600"><i class="fas fa-calendar-alt mr-1"></i> <span id="result-submitted-date"></span></span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">Điểm:</span>
+                                <span id="result-score" class="text-xl font-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="result-content" class="space-y-4">
+                        <!-- Result content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/firebaseui@4.8.0/dist/firebaseui.js"></script>
+    <script src="./js/firebase.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/manage-exam.js" type="module"></script>
+</body>
+</html>

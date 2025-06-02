@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Đề Thi - Luyện Thi Văn Học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold">TẠO ĐỀ THI</h1>
+                    <p class="text-sm md:text-base opacity-90 mt-1">Tạo đề thi văn học với nhiều tùy chọn</p>
+                </div>
+                <div id="auth-section" class="flex items-center space-x-4">
+                    <div id="user-info" class="hidden items-center space-x-2">
+                        <span id="user-name" class="font-medium"></span>
+                        <button id="logout-btn" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm transition">
+                            Đăng xuất
+                        </button>
+                    </div>
+                    <div id="login-btn" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm transition cursor-pointer">
+                        Đăng nhập
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <!-- Bước 1: Thiết lập cơ bản -->
+                    <div id="step-1" class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">1. Thiết lập cơ bản</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Tiêu đề đề thi</label>
+                                <input type="text" id="exam-title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Thời gian thi (phút)</label>
+                                <input type="number" id="exam-duration" min="1" value="60" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Mô tả đề thi</label>
+                                <textarea id="exam-description" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bước 2: Phương thức tạo đề -->
+                    <div id="step-2" class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">2. Phương thức tạo đề</h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Tạo thủ công -->
+                            <div id="manual-creation" class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center cursor-pointer">
+                                <div class="bg-indigo-100 p-4 rounded-full inline-block mb-4">
+                                    <i class="fas fa-pencil-alt text-indigo-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Tạo thủ công</h3>
+                                <p class="text-gray-600 text-sm">Tạo từng câu hỏi với nhiều loại câu hỏi khác nhau</p>
+                            </div>
+
+                            <!-- Tạo bằng AI -->
+                            <div id="ai-creation" class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center cursor-pointer">
+                                <div class="bg-blue-100 p-4 rounded-full inline-block mb-4">
+                                    <i class="fas fa-robot text-blue-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Tạo bằng AI</h3>
+                                <p class="text-gray-600 text-sm">AI sẽ tạo đề thi dựa trên mô tả của bạn</p>
+                            </div>
+
+                            <!-- Từ file Word -->
+                            <div id="word-import" class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center cursor-pointer">
+                                <div class="bg-green-100 p-4 rounded-full inline-block mb-4">
+                                    <i class="fas fa-file-word text-green-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Từ file Word</h3>
+                                <p class="text-gray-600 text-sm">Nhập đề thi từ file Word có sẵn</p>
+                            </div>
+
+                            <!-- Từ hình ảnh -->
+                            <div id="image-import" class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center cursor-pointer">
+                                <div class="bg-yellow-100 p-4 rounded-full inline-block mb-4">
+                                    <i class="fas fa-image text-yellow-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Từ hình ảnh</h3>
+                                <p class="text-gray-600 text-sm">Nhập đề thi từ ảnh chụp hoặc file ảnh</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nội dung tạo đề (sẽ thay đổi tùy phương thức) -->
+                    <div id="creation-content" class="mb-8 hidden">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">3. Nội dung đề thi</h2>
+                        <div id="manual-content" class="hidden">
+                            <div id="questions-container" class="space-y-6"></div>
+                            <button id="add-question" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition">
+                                <i class="fas fa-plus mr-2"></i>Thêm câu hỏi
+                            </button>
+                        </div>
+                        <div id="ai-content" class="hidden">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Mô tả đề thi cho AI</label>
+                                <textarea id="ai-prompt" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ví dụ: Đề thi văn học lớp 12 về tác phẩm 'Vợ nhặt' của Kim Lân, gồm 10 câu trắc nghiệm và 2 câu tự luận..."></textarea>
+                            </div>
+                            <button id="generate-ai-exam" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                                <i class="fas fa-robot mr-2"></i>Tạo đề bằng AI
+                            </button>
+                        </div>
+                        <div id="word-content" class="hidden">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Tải lên file Word</label>
+                                <input type="file" id="word-file" accept=".doc,.docx" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <button id="process-word" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
+                                <i class="fas fa-file-word mr-2"></i>Xử lý file Word
+                            </button>
+                        </div>
+                        <div id="image-content" class="hidden">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Tải lên hình ảnh hoặc chụp ảnh</label>
+                                <div class="flex space-x-4">
+                                    <input type="file" id="image-file" accept="image/*" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <button id="capture-image" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition whitespace-nowrap">
+                                        <i class="fas fa-camera mr-2"></i>Chụp ảnh
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="camera-preview" class="hidden mb-4">
+                                <video id="camera-view" autoplay playsinline class="w-full rounded-lg border"></video>
+                                <button id="take-photo" class="mt-2 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition">
+                                    <i class="fas fa-camera mr-2"></i>Chụp
+                                </button>
+                            </div>
+                            <div id="captured-image-container" class="hidden mb-4">
+                                <img id="captured-image" src="#" alt="Ảnh đã chụp" class="w-full rounded-lg border">
+                            </div>
+                            <button id="process-image" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition">
+                                <i class="fas fa-image mr-2"></i>Xử lý hình ảnh
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bước 3: Thiết lập bổ sung -->
+                    <div id="step-3" class="mb-8 hidden">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">4. Thiết lập bổ sung</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="anti-cheat" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                    <span class="text-gray-700">Bật chống gian lận</span>
+                                </label>
+                                <p class="text-gray-500 text-sm mt-1 ml-6">Kích hoạt tính năng chống copy paste và chuyển tab khi làm bài</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút điều hướng -->
+                    <div class="flex justify-between">
+                        <button id="prev-step" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition hidden">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                        </button>
+                        <button id="next-step" class="ml-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition">
+                            Tiếp theo<i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button id="create-exam" class="ml-auto bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition hidden">
+                            <i class="fas fa-save mr-2"></i>Tạo đề thi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal preview -->
+    <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Xem trước đề thi</h3>
+                <button id="close-preview" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="preview-content" class="space-y-6"></div>
+            <div class="mt-6 flex justify-end">
+                <button id="confirm-create" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
+                    <i class="fas fa-check mr-2"></i>Xác nhận tạo đề
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Đề thi đã được tạo</h3>
+                <button id="close-qr" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="text-center">
+                <div id="qr-code" class="flex justify-center mb-4"></div>
+                <p class="text-gray-600 mb-4">Quét mã QR để chia sẻ đề thi</p>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Link đề thi</label>
+                    <div class="flex">
+                        <input type="text" id="exam-link" class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none" readonly>
+                        <button id="copy-link" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-lg transition">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <button id="done-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition">
+                    <i class="fas fa-check mr-2"></i>Hoàn thành
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase và các script -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/create-exam.js"></script>
+</body>
+</html>

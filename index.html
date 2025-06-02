@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Thi Văn Học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold">LUYỆN THI VĂN HỌC</h1>
+                    <p class="text-sm md:text-base opacity-90 mt-1">Nâng cao kỹ năng - Đạt điểm cao</p>
+                </div>
+                <div id="auth-section" class="flex items-center space-x-4">
+                    <div id="user-info" class="hidden items-center space-x-2">
+                        <span id="user-name" class="font-medium"></span>
+                        <button id="logout-btn" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm transition">
+                            Đăng xuất
+                        </button>
+                    </div>
+                    <div id="login-btn" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm transition cursor-pointer">
+                        Đăng nhập
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Chào mừng đến với hệ thống luyện thi văn học</h2>
+                        <p class="text-gray-600">Lựa chọn chức năng bạn muốn sử dụng</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Tạo đề -->
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center">
+                            <div class="bg-indigo-100 p-4 rounded-full inline-block mb-4">
+                                <i class="fas fa-file-alt text-indigo-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Tạo đề thi</h3>
+                            <p class="text-gray-600 mb-4">Tạo đề thi mới với nhiều tùy chọn phong phú</p>
+                            <a href="create-exam.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition">
+                                Bắt đầu
+                            </a>
+                        </div>
+
+                        <!-- Tham gia thi -->
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center">
+                            <div class="bg-blue-100 p-4 rounded-full inline-block mb-4">
+                                <i class="fas fa-pen-fancy text-blue-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Tham gia thi</h3>
+                            <p class="text-gray-600 mb-4">Tham gia các bài thi có sẵn hoặc do AI tạo</p>
+                            <a href="take-exam.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+                                Bắt đầu
+                            </a>
+                        </div>
+
+                        <!-- Quản lý bài thi -->
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6 text-center">
+                            <div class="bg-green-100 p-4 rounded-full inline-block mb-4">
+                                <i class="fas fa-clipboard-check text-green-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Quản lý bài thi</h3>
+                            <p class="text-gray-600 mb-4">Xem và chấm điểm các bài thi</p>
+                            <a href="manage-exam.html" class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
+                                Bắt đầu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hướng dẫn sử dụng -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Hướng dẫn sử dụng</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-indigo-100 p-2 rounded-full mr-3 mt-1">
+                                <i class="fas fa-file-alt text-indigo-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Tạo đề thi</h3>
+                                <p class="text-gray-600 text-sm">Tạo đề thi mới với nhiều tùy chọn: thủ công, bằng AI, từ file Word hoặc hình ảnh.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3 mt-1">
+                                <i class="fas fa-pen-fancy text-blue-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Tham gia thi</h3>
+                                <p class="text-gray-600 text-sm">Tham gia bài thi của người khác qua link/QR code hoặc bài thi do AI tạo.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2 rounded-full mr-3 mt-1">
+                                <i class="fas fa-clipboard-check text-green-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Quản lý bài thi</h3>
+                                <p class="text-gray-600 text-sm">Xem và chấm điểm các bài thi đã tạo hoặc xem kết quả bài thi của bạn.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">Hệ thống luyện thi văn học</p>
+            <p class="text-gray-400 text-sm">© 2023 - Phát triển bởi Hoàng Minh Tuấn và Trương Viết Duy Chương</p>
+        </div>
+    </footer>
+
+    <!-- Firebase và auth scripts -->
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
