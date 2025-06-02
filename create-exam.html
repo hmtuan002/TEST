@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo đề thi - Hệ thống luyện thi Văn học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-blue-800">Tạo đề thi mới</h1>
+            <a href="index.html" class="text-gray-600 hover:text-blue-600">
+                <i class="fas fa-home mr-1"></i> Trang chủ
+            </a>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-wrap mb-6">
+                <div class="w-full md:w-1/2 px-2 mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Tiêu đề đề thi</label>
+                    <input type="text" id="exam-title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nhập tiêu đề đề thi">
+                </div>
+                <div class="w-full md:w-1/2 px-2 mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Thời gian làm bài (phút)</label>
+                    <input type="number" id="exam-duration" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="60" min="1">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2">Mô tả đề thi</label>
+                <textarea id="exam-description" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Nhập mô tả ngắn về đề thi"></textarea>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Phương thức tạo đề</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Tạo thủ công -->
+                <div id="manual-option" class="border-2 border-blue-500 rounded-xl p-6 cursor-pointer transition hover:bg-blue-50">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-pencil-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Tạo thủ công</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tự tạo từng câu hỏi với nhiều dạng: trắc nghiệm, đúng/sai, tự luận.</p>
+                    <button id="start-manual-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Bắt đầu tạo
+                    </button>
+                </div>
+
+                <!-- Tạo bằng AI -->
+                <div id="ai-option" class="border-2 border-green-500 rounded-xl p-6 cursor-pointer transition hover:bg-green-50">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-robot text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Tạo bằng AI</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Nhập mô tả và để AI tự động tạo đề thi theo yêu cầu của bạn.</p>
+                    <button id="start-ai-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Bắt đầu tạo
+                    </button>
+                </div>
+
+                <!-- Từ file Word -->
+                <div id="word-option" class="border-2 border-purple-500 rounded-xl p-6 cursor-pointer transition hover:bg-purple-50">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-file-word text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Từ file Word</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tải lên file Word (.docx) và hệ thống sẽ chuyển đổi thành đề thi.</p>
+                    <input type="file" id="word-file" accept=".docx" class="hidden">
+                    <button id="start-word-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Chọn file
+                    </button>
+                </div>
+
+                <!-- Từ hình ảnh -->
+                <div id="image-option" class="border-2 border-amber-500 rounded-xl p-6 cursor-pointer transition hover:bg-amber-50">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-amber-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-image text-amber-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Từ hình ảnh</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tải lên ảnh hoặc chụp trực tiếp để chuyển đổi thành đề thi.</p>
+                    <div class="flex space-x-2">
+                        <input type="file" id="image-file" accept="image/*" class="hidden">
+                        <button id="start-image-btn" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                            Chọn ảnh
+                        </button>
+                        <button id="start-camera-btn" class="flex-1 bg-amber-700 hover:bg-amber-800 text-white py-2 px-4 rounded-lg font-medium transition">
+                            <i class="fas fa-camera mr-1"></i> Chụp ảnh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phần tạo thủ công (ẩn ban đầu) -->
+        <div id="manual-creation" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Tạo câu hỏi thủ công</h2>
+                <button id="add-question-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                    <i class="fas fa-plus mr-1"></i> Thêm câu hỏi
+                </button>
+            </div>
+
+            <div id="questions-container" class="space-y-6">
+                <!-- Câu hỏi sẽ được thêm vào đây -->
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-4">
+                <button id="cancel-manual-btn" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg font-medium transition">
+                    Hủy bỏ
+                </button>
+                <button id="save-manual-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                    Lưu đề thi
+                </button>
+            </div>
+        </div>
+
+        <!-- Phần tạo bằng AI (ẩn ban đầu) -->
+        <div id="ai-creation" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Tạo đề thi bằng AI</h2>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2">Mô tả đề thi</label>
+                <textarea id="ai-prompt" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" rows="5" placeholder="Ví dụ: Tạo đề thi Ngữ Văn THPT gồm 4 câu đọc hiểu (1 đoạn văn), 1 câu nghị luận xã hội 200 chữ, 1 câu nghị luận văn học về tác phẩm 'Vợ chồng A Phủ'"></textarea>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <button id="cancel-ai-btn" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg font-medium transition">
+                    Hủy bỏ
+                </button>
+                <button id="generate-ai-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                    <i class="fas fa-magic mr-1"></i> Tạo đề thi
+                </button>
+            </div>
+        </div>
+
+        <!-- Phần xem trước đề thi (ẩn ban đầu) -->
+        <div id="exam-preview" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Xem trước đề thi</h2>
+                <div class="flex space-x-2">
+                    <button id="edit-exam-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        <i class="fas fa-edit mr-1"></i> Chỉnh sửa
+                    </button>
+                    <button id="download-exam-btn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        <i class="fas fa-download mr-1"></i> Tải xuống
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h3 class="text-xl font-bold mb-2" id="preview-title">Đề thi Ngữ Văn</h3>
+                <p class="text-gray-600 mb-1"><strong>Thời gian:</strong> <span id="preview-duration">60 phút</span></p>
+                <p class="text-gray-600" id="preview-description">Mô tả đề thi</p>
+            </div>
+
+            <div id="preview-questions" class="space-y-6">
+                <!-- Nội dung đề thi sẽ hiển thị ở đây -->
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Cài đặt bổ sung</h3>
+                
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-gray-700 mb-2">Chống gian lận</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="anti-copy" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                            <span>Chống sao chép (không cho copy/paste)</span>
+                        </label>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="anti-tab" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                            <span>Chống chuyển tab (tự động nộp bài nếu rời khỏi trang)</span>
+                        </label>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="require-login" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span>Yêu cầu đăng nhập để làm bài</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-gray-700 mb-2">Cài đặt hiển thị</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="show-timer" class="form-checkbox h-5 w-5 text-blue-600" checked>
+                            <span>Hiển thị đồng hồ đếm ngược</span>
+                        </label>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="random-order" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span>Xáo trộn thứ tự câu hỏi</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end">
+                <button id="publish-exam-btn" class="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-medium text-lg transition">
+                    <i class="fas fa-share-square mr-2"></i> Xuất bản đề thi
+                </button>
+            </div>
+        </div>
+
+        <!-- Phần chia sẻ đề thi (ẩn ban đầu) -->
+        <div id="share-exam" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+            <div class="text-center">
+                <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Đề thi đã được tạo thành công!</h2>
+                <p class="text-gray-600 mb-6">Chia sẻ liên kết hoặc mã QR này để người khác có thể tham gia làm bài.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-gray-700 mb-4">Liên kết tham gia</h3>
+                        <div class="flex">
+                            <input type="text" id="exam-link" class="flex-1 px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                            <button id="copy-link-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="mt-4 flex space-x-2">
+                            <a id="share-facebook" href="#" class="flex-1 bg-blue-800 hover:bg-blue-900 text-white py-2 px-4 rounded-lg text-center transition">
+                                <i class="fab fa-facebook-f mr-1"></i> Facebook
+                            </a>
+                            <a id="share-zalo" href="#" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-center transition">
+                                <i class="fab fa-zalo mr-1"></i> Zalo
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg flex flex-col items-center">
+                        <h3 class="font-bold text-gray-700 mb-4">Mã QR tham gia</h3>
+                        <div id="qr-code" class="mb-4 p-2 bg-white rounded border border-gray-200">
+                            <!-- QR code sẽ được tạo ở đây -->
+                        </div>
+                        <button id="download-qr-btn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition">
+                            <i class="fas fa-download mr-1"></i> Tải QR code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <a href="manage-exam.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                        <i class="fas fa-tasks mr-1"></i> Quản lý đề thi
+                    </a>
+                    <button id="create-new-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                        <i class="fas fa-plus mr-1"></i> Tạo đề mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal thêm câu hỏi -->
+    <div id="question-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm câu hỏi mới</h3>
+                    <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Loại câu hỏi</label>
+                    <select id="question-type" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="multiple-choice">Trắc nghiệm (A, B, C, D)</option>
+                        <option value="true-false">Đúng/Sai</option>
+                        <option value="short-answer">Trả lời ngắn</option>
+                        <option value="essay">Tự luận</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Nội dung câu hỏi</label>
+                    <textarea id="question-content" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Nhập nội dung câu hỏi"></textarea>
+                </div>
+                
+                <!-- Phần tùy chọn cho trắc nghiệm -->
+                <div id="mc-options" class="space-y-2 mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Các lựa chọn</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" class="flex-1 px-3 py-1 border rounded" placeholder="Lựa chọn A">
+                        <input type="radio" name="correct-option" value="0" checked>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" class="flex-1 px-3 py-1 border rounded" placeholder="Lựa chọn B">
+                        <input type="radio" name="correct-option" value="1">
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" class="flex-1 px-3 py-1 border rounded" placeholder="Lựa chọn C">
+                        <input type="radio" name="correct-option" value="2">
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" class="flex-1 px-3 py-1 border rounded" placeholder="Lựa chọn D">
+                        <input type="radio" name="correct-option" value="3">
+                    </div>
+                    <button id="add-option-btn" class="text-blue-600 hover:text-blue-800 text-sm mt-1">
+                        <i class="fas fa-plus mr-1"></i> Thêm lựa chọn
+                    </button>
+                </div>
+                
+                <!-- Phần tùy chọn cho đúng/sai -->
+                <div id="tf-options" class="mb-4 hidden">
+                    <label class="block text-gray-700 font-medium mb-2">Đáp án đúng</label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="correct-tf" value="true" checked>
+                            <span>Đúng</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="correct-tf" value="false">
+                            <span>Sai</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Phần tùy chọn cho trả lời ngắn/tự luận -->
+                <div id="sa-options" class="mb-4 hidden">
+                    <label class="block text-gray-700 font-medium mb-2">Đáp án mẫu (dành cho chấm điểm)</label>
+                    <textarea id="sample-answer" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Nhập đáp án mẫu (nếu có)"></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Điểm số</label>
+                    <input type="number" id="question-points" class="w-20 px-3 py-1 border rounded" value="1" min="0.1" step="0.1">
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button id="cancel-question-btn" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Hủy bỏ
+                    </button>
+                    <button id="save-question-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Lưu câu hỏi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal camera -->
+    <div id="camera-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Chụp ảnh đề thi</h3>
+                    <button id="close-camera-btn" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4 bg-black rounded-lg overflow-hidden">
+                    <video id="camera-preview" autoplay playsinline class="w-full"></video>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button id="capture-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                        <i class="fas fa-camera mr-1"></i> Chụp ảnh
+                    </button>
+                    <button id="switch-camera-btn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded-lg font-medium transition">
+                        <i class="fas fa-sync-alt mr-1"></i> Đổi camera
+                    </button>
+                </div>
+                
+                <div id="captured-container" class="mt-4 hidden">
+                    <h4 class="font-bold text-gray-700 mb-2">Ảnh đã chụp</h4>
+                    <div class="flex space-x-2 overflow-x-auto pb-2">
+                        <!-- Ảnh chụp sẽ hiển thị ở đây -->
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="cancel-capture-btn" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition">
+                        Hủy bỏ
+                    </button>
+                    <button id="process-images-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                        <i class="fas fa-magic mr-1"></i> Xử lý ảnh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/create-exam.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</body>
+</html>
