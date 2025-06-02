@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ - Hệ thống luyện thi Văn học</title>
+    <title>Thi Thử Văn Học</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background-color: #f8fafc;
             font-family: 'Arial', sans-serif;
+            background-color: #f8fafc;
         }
         .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .btn-primary {
             background-color: #4f46e5;
@@ -35,127 +35,93 @@
         .btn-primary:hover {
             background-color: #4338ca;
         }
-        .nav-item {
-            position: relative;
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #4f46e5;
-            border-radius: 3px;
-        }
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex flex-col">
-        <!-- Header -->
-        <header class="bg-white shadow-sm py-4 px-6">
-            <div class="flex justify-between items-center max-w-6xl mx-auto">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-book-open text-2xl text-blue-600"></i>
-                    <h1 class="text-xl font-bold text-gray-800">Luyện Thi Văn Học</h1>
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-book-open text-blue-600 text-2xl"></i>
+                <span class="text-xl font-bold text-gray-800">Thi Thử Văn Học</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="logout-btn" class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Chào mừng bạn đến với hệ thống luyện thi Văn học</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Hệ thống giúp bạn tạo đề thi, tham gia thi và quản lý bài thi một cách dễ dàng</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card bg-white rounded-xl shadow-md overflow-hidden p-6 text-center">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-plus text-blue-600 text-2xl"></i>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div id="user-info" class="hidden">
-                        <span id="user-name" class="font-medium text-gray-700"></span>
-                        <button id="logout-btn" class="ml-3 text-sm text-blue-600 hover:underline">Đăng xuất</button>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Tạo đề thi</h3>
+                <p class="text-gray-600 mb-4">Tạo đề thi mới với nhiều tùy chọn khác nhau</p>
+                <a href="create-exam.html" class="btn-primary inline-block">Bắt đầu</a>
+            </div>
+
+            <div class="card bg-white rounded-xl shadow-md overflow-hidden p-6 text-center">
+                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-pen-fancy text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Tham gia thi</h3>
+                <p class="text-gray-600 mb-4">Tham gia các bài thi có sẵn hoặc thi với AI</p>
+                <a href="take-exam.html" class="btn-primary inline-block">Bắt đầu</a>
+            </div>
+
+            <div class="card bg-white rounded-xl shadow-md overflow-hidden p-6 text-center">
+                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clipboard-list text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Quản lý bài thi</h3>
+                <p class="text-gray-600 mb-4">Xem và quản lý các bài thi của bạn</p>
+                <a href="manage-exam.html" class="btn-primary inline-block">Bắt đầu</a>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-white rounded-xl shadow-md overflow-hidden p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Hướng dẫn sử dụng</h2>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span class="text-blue-600 font-medium">1</span>
                     </div>
-                    <div id="auth-buttons" class="flex space-x-3">
-                        <a href="login.html" class="text-sm text-gray-600 hover:text-blue-600">Đăng nhập</a>
-                        <a href="register.html" class="text-sm text-blue-600 hover:underline">Đăng ký</a>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Tạo đề thi</h3>
+                        <p class="text-gray-600">Chọn "Tạo đề thi" để tạo bài thi mới với nhiều tùy chọn: thủ công, AI, từ file Word</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span class="text-blue-600 font-medium">2</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Tham gia thi</h3>
+                        <p class="text-gray-600">Chọn "Tham gia thi" để tham gia bài thi bằng mã QR, link hoặc thi với AI</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span class="text-blue-600 font-medium">3</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Quản lý bài thi</h3>
+                        <p class="text-gray-600">Chọn "Quản lý bài thi" để xem các bài thi bạn đã tạo hoặc đã tham gia</p>
                     </div>
                 </div>
             </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="bg-white shadow-sm py-3 px-6">
-            <div class="max-w-6xl mx-auto">
-                <ul class="flex space-x-8">
-                    <li class="nav-item active">
-                        <a href="index.html" class="text-gray-800 font-medium">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="create-exam.html" class="text-gray-600 hover:text-gray-800">Tạo đề thi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="take-exam.html" class="text-gray-600 hover:text-gray-800">Thi thử</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="manage-exam.html" class="text-gray-600 hover:text-gray-800">Quản lý bài thi</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="flex-grow py-8 px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-3">Hệ thống luyện thi Văn học</h1>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Tạo đề, tổ chức thi và quản lý kết quả một cách dễ dàng với công nghệ AI hiện đại</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Create Exam Card -->
-                    <div class="card p-6">
-                        <div class="text-blue-600 text-4xl mb-4">
-                            <i class="fas fa-plus-circle"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Tạo đề thi</h3>
-                        <p class="text-gray-600 mb-4">Tạo đề thi trắc nghiệm, tự luận hoặc kết hợp với nhiều tùy chọn nâng cao</p>
-                        <a href="create-exam.html" class="btn-primary inline-block">Bắt đầu tạo đề</a>
-                    </div>
-
-                    <!-- Take Exam Card -->
-                    <div class="card p-6">
-                        <div class="text-green-600 text-4xl mb-4">
-                            <i class="fas fa-pen-fancy"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Thi thử</h3>
-                        <p class="text-gray-600 mb-4">Tham gia các bài thi thử để kiểm tra kiến thức và nâng cao kỹ năng làm bài</p>
-                        <a href="take-exam.html" class="btn-primary inline-block">Thi ngay</a>
-                    </div>
-
-                    <!-- Manage Exams Card -->
-                    <div class="card p-6">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Quản lý bài thi</h3>
-                        <p class="text-gray-600 mb-4">Theo dõi và chấm điểm các bài thi đã tạo hoặc đã tham gia</p>
-                        <a href="manage-exam.html" class="btn-primary inline-block">Quản lý ngay</a>
-                    </div>
-                </div>
-
-                <!-- Recent Exams Section -->
-                <div class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Đề thi gần đây</h2>
-                    <div id="recent-exams" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Exams will be loaded here -->
-                        <div class="text-center py-8 text-gray-500">
-                            <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
-                            <p>Đang tải danh sách đề thi...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="bg-gray-50 py-6 px-6 border-t">
-            <div class="max-w-6xl mx-auto text-center text-gray-600 text-sm">
-                <p>© 2023 Hệ thống luyện thi Văn học. Bản quyền thuộc về nhóm phát triển.</p>
-            </div>
-        </footer>
+        </div>
     </div>
 
     <script>
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAu4xlTa51eZrb9b2xhWKkbOv-L8gpPDPg",
             authDomain: "xta-tl.firebaseapp.com",
@@ -166,94 +132,32 @@
             measurementId: "G-MC2V2CK2XF"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Check auth state
+        // Kiểm tra đăng nhập
         auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is signed in
-                document.getElementById('auth-buttons').classList.add('hidden');
-                document.getElementById('user-info').classList.remove('hidden');
-                
-                // Get user data
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                // Hiển thị thông tin người dùng
                 db.collection('users').doc(user.uid).get().then((doc) => {
                     if (doc.exists) {
-                        document.getElementById('user-name').textContent = doc.data().name;
+                        console.log("User data:", doc.data());
                     }
                 });
-                
-                // Load user's recent exams
-                loadRecentExams(user.uid);
-            } else {
-                // User is signed out
-                document.getElementById('auth-buttons').classList.remove('hidden');
-                document.getElementById('user-info').classList.add('hidden');
             }
         });
 
-        // Logout function
-        document.getElementById('logout-btn')?.addEventListener('click', () => {
+        // Đăng xuất
+        document.getElementById('logout-btn').addEventListener('click', () => {
             auth.signOut().then(() => {
-                window.location.reload();
+                window.location.href = 'login.html';
+            }).catch((error) => {
+                console.error('Logout error:', error);
             });
         });
-
-        // Load recent exams
-        function loadRecentExams(userId) {
-            const examsContainer = document.getElementById('recent-exams');
-            
-            db.collection('exams')
-                .where('creatorId', '==', userId)
-                .orderBy('createdAt', 'desc')
-                .limit(4)
-                .get()
-                .then((querySnapshot) => {
-                    examsContainer.innerHTML = '';
-                    
-                    if (querySnapshot.empty) {
-                        examsContainer.innerHTML = `
-                            <div class="col-span-2 text-center py-8">
-                                <i class="fas fa-book-open text-3xl text-gray-400 mb-3"></i>
-                                <p class="text-gray-500">Bạn chưa tạo đề thi nào. Hãy bắt đầu bằng cách tạo đề thi mới!</p>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    querySnapshot.forEach((doc) => {
-                        const exam = doc.data();
-                        examsContainer.innerHTML += `
-                            <div class="card p-5">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="font-bold text-lg text-gray-800">${exam.title || 'Đề thi không có tiêu đề'}</h3>
-                                        <p class="text-gray-600 mt-1">${exam.description || 'Không có mô tả'}</p>
-                                        <div class="flex items-center mt-3 text-sm text-gray-500">
-                                            <i class="fas fa-clock mr-1"></i>
-                                            <span>${exam.duration || 0} phút</span>
-                                            <span class="mx-2">•</span>
-                                            <i class="fas fa-question-circle mr-1"></i>
-                                            <span>${exam.questions?.length || 0} câu hỏi</span>
-                                        </div>
-                                    </div>
-                                    <a href="manage-exam.html?examId=${doc.id}" class="text-blue-600 hover:underline text-sm">Xem chi tiết</a>
-                                </div>
-                            </div>
-                        `;
-                    });
-                })
-                .catch((error) => {
-                    examsContainer.innerHTML = `
-                        <div class="col-span-2 text-center py-8 text-red-600">
-                            <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
-                            <p>Có lỗi xảy ra khi tải danh sách đề thi: ${error.message}</p>
-                        </div>
-                    `;
-                });
-        }
     </script>
 </body>
 </html>
