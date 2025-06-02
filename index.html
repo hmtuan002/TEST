@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Luyện Thi Văn Học</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Hệ Thống Luyện Thi Văn Học</h1>
+            <div id="auth-section">
+                <button id="login-btn" class="btn">Đăng nhập</button>
+                <button id="register-btn" class="btn btn-secondary">Đăng ký</button>
+            </div>
+            <div id="user-section" class="hidden">
+                <span id="username-display"></span>
+                <button id="logout-btn" class="btn btn-secondary">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="hero">
+                <h2>Nâng cao kỹ năng làm bài thi Văn học</h2>
+                <p>Hệ thống hỗ trợ tạo đề, thi thử và quản lý bài thi môn Ngữ Văn</p>
+            </div>
+
+            <div class="options-grid">
+                <div class="option-card" id="create-exam-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Tạo đề thi</h3>
+                    <p>Tạo đề thi mới với nhiều tùy chọn</p>
+                    <button class="btn">Bắt đầu</button>
+                </div>
+
+                <div class="option-card" id="take-exam-card">
+                    <i class="fas fa-pen"></i>
+                    <h3>Tham gia thi</h3>
+                    <p>Thi thử với đề có sẵn hoặc đề AI</p>
+                    <button class="btn">Bắt đầu</button>
+                </div>
+
+                <div class="option-card" id="manage-exam-card">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Quản lý bài thi</h3>
+                    <p>Xem và chấm điểm bài thi</p>
+                    <button class="btn">Bắt đầu</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Hệ Thống Luyện Thi Văn Học</p>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Đăng nhập</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn" id="auth-submit-btn">Đăng nhập</button>
+                <p id="auth-switch-text">Chưa có tài khoản? <a href="#" id="auth-switch-link">Đăng ký ngay</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Navigation
+        document.getElementById('create-exam-card').addEventListener('click', () => {
+            window.location.href = 'create-exam.html';
+        });
+
+        document.getElementById('take-exam-card').addEventListener('click', () => {
+            window.location.href = 'take-exam.html';
+        });
+
+        document.getElementById('manage-exam-card').addEventListener('click', () => {
+            window.location.href = 'manage-exam.html';
+        });
+    </script>
+</body>
+</html>

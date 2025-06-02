@@ -1,0 +1,24 @@
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAu4xlTa51eZrb9b2xhWKkbOv-L8gpPDPg",
+    authDomain: "xta-tl.firebaseapp.com",
+    projectId: "xta-tl",
+    storageBucket: "xta-tl.appspot.com",
+    messagingSenderId: "1049275322449",
+    appId: "1:1049275322449:web:9ad1ed1986bb1712942870",
+    measurementId: "G-MC2V2CK2XF"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase services
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+// Enable offline persistence
+db.enablePersistence()
+  .catch((err) => {
+      console.log("Firebase persistence error: ", err);
+  });
